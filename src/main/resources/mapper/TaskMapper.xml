@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.test.tasktracker.mapper.TaskMapper">
+
+    <resultMap id="TaskResultMap" type="ru.test.tasktracker.model.Task">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="status" column="status" javaType="ru.test.tasktracker.model.TaskStatus"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="ru.test.tasktracker.model.Task" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tasks(title, description, status)
+        VALUES (#{title}, #{description}, #{status})
+    </insert>
+
+    <select id="findById" resultMap="TaskResultMap">
+        SELECT id, title, description, status
+        FROM tasks
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE tasks
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+</mapper>
